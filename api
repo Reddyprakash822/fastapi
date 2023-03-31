@@ -1,0 +1,38 @@
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/challenge', methods=['POST'])
+def process_request():
+    data = request.json['data']
+    user_id = request.json['user_id']
+    email_id = request.json['email_id']
+    college_roll_no = request.json['college_roll_no']
+
+    even_array = []
+    odd_array = []
+    alpha_array = []
+
+    for element in data:
+        if isinstance(element, int):
+            if element % 2 == 0:
+                even_array.append(element)
+            else:
+                odd_array.append(element)
+        elif isinstance(element, str):
+            alpha_array.append(element.upper())
+
+    response = {
+        'status': 'success',
+        'user_id': user_id,
+        'email_id': email_id,
+        'college_roll_no': college_roll_no,
+        'even_array': even_array,
+        'odd_array': odd_array,
+        'alpha_array': alpha_array
+    }
+
+    return jsonify(response)
+
+if __name__ == '__main__':
+    app.run()
